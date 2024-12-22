@@ -1,6 +1,6 @@
 import MapCamera from "@/components/map-camera/MapCamera";
 import Mapbox from "@rnmapbox/maps";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetRouteQuery } from "@/redux/mapbox-api";
 import { Text } from "react-native";
 import { IPosition } from "@/types/IPosition";
@@ -12,6 +12,11 @@ import {
 } from "@/styles/route-planner/route-planner.styled";
 import AddressAutocomplete from "@/components/address-auto-complete/AddressAutocomplete";
 import MapPointIndicator from "@/components/map-point-indicator/MapPointIndicator";
+import {
+  getLastLocation,
+  initializeDatabase,
+  insertLocation,
+} from "@/database/db";
 
 export default function RoutePlanner() {
   const [startCoords, setStartCoords] = useState<IPosition>({
@@ -28,6 +33,30 @@ export default function RoutePlanner() {
     endCoords: endCoords,
   });
 
+  console.log(startCoords, endCoords);
+
+  const mainRouteCords = data?.routes?.[0]?.geometry?.coordinates || [];
+  const alternativeRoutes = data?.routes?.slice(1) || [];
+
+  useEffect(() => {
+    async function setupDb() {
+      await initializeDatabase();
+      const lastCoorinates = await getLastLocation();
+
+      if (lastCoorinates != null) {
+        setStartCoords({
+          lat: lastCoorinates.startLat,
+          long: lastCoorinates.startLong,
+        });
+        setEndCoords({
+          lat: lastCoorinates.endLat,
+          long: lastCoorinates.endLong,
+        });
+      }
+    }
+    setupDb();
+  }, []);
+
   if (isLoading) {
     return <AppLoader />;
   }
@@ -35,11 +64,6 @@ export default function RoutePlanner() {
   if (error) {
     return <Text>Error fetching routes</Text>;
   }
-
-  console.log(startCoords, endCoords)
-
-  const mainRouteCords = data?.routes?.[0]?.geometry?.coordinates || [];
-  const alternativeRoutes = data?.routes?.slice(1) || [];
 
   return (
     <AppContainer>
@@ -49,7 +73,7 @@ export default function RoutePlanner() {
         }}
       >
         <MapCamera
-          zoomLevel={13}
+          zoomLevel={10}
           position={[startCoords.lat, startCoords.long]}
         />
         {mainRouteCords.length > 0 && (
@@ -114,14 +138,26 @@ export default function RoutePlanner() {
         <SearchInnerContainer>
           <AddressAutocomplete
             placeholder="Start Address"
-            onPlaceSelected={(position) => {
+            onPlaceSelected={async (position) => {
               setStartCoords(position);
+              await insertLocation(
+                position.lat,
+                position.long,
+                endCoords.lat,
+                endCoords.long
+              );
             }}
           />
           <AddressAutocomplete
             placeholder="Destination Address"
-            onPlaceSelected={(position) => {
+            onPlaceSelected={async (position) => {
               setEndCoords(position);
+              await insertLocation(
+                startCoords.lat,
+                startCoords.long,
+                position.lat,
+                position.long
+              );
             }}
           />
         </SearchInnerContainer>

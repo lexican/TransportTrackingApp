@@ -1,6 +1,6 @@
 import { Position } from "@rnmapbox/maps/lib/typescript/src/types/Position";
 
-export interface MapCameraProps {
+export type MapCameraProps = {
   zoomLevel: number;
   position: Position;
-}
+};

@@ -1,4 +1,4 @@
-package com.anonymous.TransportTrackingRNApp
+package com.anonymous.TransportTrackingApp
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

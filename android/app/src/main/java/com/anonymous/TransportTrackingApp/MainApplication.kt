@@ -1,4 +1,4 @@
-package com.anonymous.TransportTrackingRNApp
+package com.anonymous.TransportTrackingApp
 
 import android.app.Application
 import android.content.res.Configuration

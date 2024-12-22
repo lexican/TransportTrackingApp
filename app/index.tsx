@@ -1,15 +1,20 @@
-import { Text, View } from "react-native";
+import MapCamera from "@/components/map-camera/MapCamera";
+import { mapboxToken } from "@/utils/utils";
+import Mapbox from "@rnmapbox/maps";
+import { Position } from "@rnmapbox/maps/lib/typescript/src/types/Position";
+
+Mapbox.setAccessToken(mapboxToken ?? "");
 
 export default function Index() {
+  const position: Position = [100.48318481445312, 5.292852878570557];
+
   return (
-    <View
+    <Mapbox.MapView
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+      <MapCamera zoomLevel={5} position={position} />
+    </Mapbox.MapView>
   );
 }

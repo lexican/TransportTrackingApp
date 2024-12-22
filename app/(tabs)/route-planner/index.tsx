@@ -13,14 +13,14 @@ import {
 import AddressAutocomplete from "@/components/address-auto-complete/AddressAutocomplete";
 import MapPointIndicator from "@/components/map-point-indicator/MapPointIndicator";
 
-export default function Index() {
+export default function RoutePlanner() {
   const [startCoords, setStartCoords] = useState<IPosition>({
-    lat: 3.283261271980098,
-    long: 6.680584422058841,
+    lat: 3.3914817,
+    long: 6.558351699999999,
   });
   const [endCoords, setEndCoords] = useState<IPosition>({
-    lat: 3.358964616248585,
-    long: 6.634894333837159,
+    lat: 3.1114879,
+    long: 6.5114449,
   });
 
   const { data, error, isLoading } = useGetRouteQuery({
@@ -35,6 +35,8 @@ export default function Index() {
   if (error) {
     return <Text>Error fetching routes</Text>;
   }
+
+  console.log(startCoords, endCoords)
 
   const mainRouteCords = data?.routes?.[0]?.geometry?.coordinates || [];
   const alternativeRoutes = data?.routes?.slice(1) || [];

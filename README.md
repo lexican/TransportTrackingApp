@@ -1,14 +1,16 @@
 # Transport Tracking App
 This Transport Tracking App is built with Expo React Native.
 
-Transport Traking App allows you to track trains location in real time ( currenlty restricted to KTMB (Keretapi Tanah Melayu Berhad). A railway operator providing train services across Malaysia) and also allows you to get route suggestions based on a start point and end point.
+Transport Tracking App allows you to track train locations in real time (currently restricted to KTMB (Keretapi Tanah Melayu Berhad). A railway operator providing train services across Malaysia). 
+
+Transport Tracking App also allows you to get route suggestions based on a start point and end point and the suggested routes can be accessed both offline and online.
 
 <br>
 
 ## Features
 
-- Used https://developer.data.gov.my/realtime-api/gtfs-realtime to get realtime data of vehicle locations of ktmb agency. Note : At present, this GTFS Realtime API only offers vehicle position data - service alerts and and trip updates are in our pipeline for 2024-25.
-- Used Redux Toolkit (for global state management) and RTK QQuery (for API integration).
+- Used https://developer.data.gov.my/realtime-api/gtfs-realtime to get realtime data of train locations of KTMB agency. (Note : At present, this GTFS Realtime API only offers vehicle position data - service alerts and and trip updates are in our pipeline for 2024-25.)
+- Used Redux Toolkit (for global state management) and RTK Query (for API integration).
 - Used MapBox SDK for interactive maps and location services.
 - Used expo-sqlite for local data storage.
 - Used https://api.mapbox.com directions to get the route between two points and also to get alternative routes if available.

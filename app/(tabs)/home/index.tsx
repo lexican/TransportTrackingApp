@@ -22,13 +22,13 @@ const Home: React.FC = () => {
     return <Text>An error just occured</Text>;
   }
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     refetch();
-  //   }, 15000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 15000);
 
-  //   return () => clearInterval(interval);
-  // }, [refetch]);
+    return () => clearInterval(interval);
+  }, [refetch]);
 
   return (
     <Mapbox.MapView style={styles.map}>

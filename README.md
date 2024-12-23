@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+# Transport Tracking App
+This Transport Tracking App is built with Expo React Native.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Transport Traking App allows you to track trains location in real time ( currenlty restricted to KTMB (Keretapi Tanah Melayu Berhad). A railway operator providing train services across Malaysia) and also allows you to get route suggestions based on a start point and end point.
 
-## Get started
+<br>
+
+## Features
+
+- Used https://developer.data.gov.my/realtime-api/gtfs-realtime to get realtime data of vehicle locations of ktmb agency. Note : At present, this GTFS Realtime API only offers vehicle position data - service alerts and and trip updates are in our pipeline for 2024-25.
+- Used Redux Toolkit (for global state management) and RTK QQuery (for API integration).
+- Used MapBox SDK for interactive maps and location services.
+- Used expo-sqlite for local data storage.
+- Used https://api.mapbox.com directions to get the route between two points and also to get alternative routes if available.
+- Used react-native-google-places-autocomplete library to get the coordinates of a given address.
+
+## Screenshots
+
+### Home
+
+<img src="screenshots/home.png" height="500em" />
+
+### Route Planner
+<img src="screenshots/route-planner.png" height="500em" />
+
+## ✨ Requirements
+
+- Any Operating System (ie. MacOS X, Linux, Windows)
+- Any IDE with node and expo cli installed (ie. VSCode)
+- A little knowledge of React Native and JavaScript 
+
+## Run locally
 
 1. Install dependencies
-
    ```bash
+   git clone https://github.com/lexican/TransportTrackingApp.git
+   cd TransportTrackingApp
    npm install
+   npx expo start
    ```
 
 2. Start the app
-
+   On Android emulator
    ```bash
-    npx expo start
+    npx expo run android
    ```
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   On IOS simulator
+   ```bash
+    npx expo run android
+   ```
+   

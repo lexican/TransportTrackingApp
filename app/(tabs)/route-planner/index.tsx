@@ -5,7 +5,7 @@ import { useGetRouteQuery } from "@/redux/mapbox-api";
 import { Text } from "react-native";
 import { IPosition } from "@/types/IPosition";
 import AppLoader from "@/components/app-loader/AppLoader";
-import { AppContainer } from "@/styles/common/App.styled";
+import { AppContainer, AppSafeAreaView } from "@/styles/common/App.styled";
 import {
   SearchContainer,
   SearchInnerContainer,
@@ -64,102 +64,104 @@ export default function RoutePlanner() {
   }
 
   return (
-    <AppContainer>
-      <Mapbox.MapView
-        style={{
-          flex: 1,
-        }}
-      >
-        <MapCamera
-          zoomLevel={10}
-          position={[startCoords.lat, startCoords.long]}
-        />
-        {mainRouteCords.length > 0 && (
-          <Mapbox.ShapeSource
-            id="primaryRouteShapeSource"
-            shape={{
-              type: "Feature",
-              geometry: {
-                type: "LineString",
-                coordinates: mainRouteCords,
-              },
-              properties: {},
-            }}
-          >
-            <Mapbox.LineLayer
-              id="primaryRouteLineLayer"
-              style={{ lineColor: "blue", lineWidth: 4 }}
-            />
-          </Mapbox.ShapeSource>
-        )}
+    <AppSafeAreaView>
+      <AppContainer>
+        <Mapbox.MapView
+          style={{
+            flex: 1,
+          }}
+        >
+          <MapCamera
+            zoomLevel={10}
+            position={[startCoords.lat, startCoords.long]}
+          />
+          {mainRouteCords.length > 0 && (
+            <Mapbox.ShapeSource
+              id="primaryRouteShapeSource"
+              shape={{
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: mainRouteCords,
+                },
+                properties: {},
+              }}
+            >
+              <Mapbox.LineLayer
+                id="primaryRouteLineLayer"
+                style={{ lineColor: "blue", lineWidth: 4 }}
+              />
+            </Mapbox.ShapeSource>
+          )}
 
-        {alternativeRoutes.map((route: any, index: any) => (
-          <Mapbox.ShapeSource
-            key={`altRoute${index}`}
-            id={`altRouteShapeSource${index}`}
-            shape={{
-              type: "Feature",
-              geometry: {
-                type: "LineString",
-                coordinates: route.geometry.coordinates,
-              },
-              properties: {},
-            }}
-          >
-            <Mapbox.LineLayer
-              id={`altRouteLineLayer${index}`}
-              style={{
-                lineColor: "#f77976",
-                lineWidth: 4,
-                lineOpacity: 0.7,
+          {alternativeRoutes.map((route: any, index: any) => (
+            <Mapbox.ShapeSource
+              key={`altRoute${index}`}
+              id={`altRouteShapeSource${index}`}
+              shape={{
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: route.geometry.coordinates,
+                },
+                properties: {},
+              }}
+            >
+              <Mapbox.LineLayer
+                id={`altRouteLineLayer${index}`}
+                style={{
+                  lineColor: "#f77976",
+                  lineWidth: 4,
+                  lineOpacity: 0.7,
+                }}
+              />
+            </Mapbox.ShapeSource>
+          ))}
+
+          <MapPointIndicator
+            lat={startCoords.lat}
+            long={startCoords.long}
+            id={"startPoint"}
+            color={"green"}
+          />
+
+          <MapPointIndicator
+            lat={endCoords.lat}
+            long={endCoords.long}
+            id={"endPoint"}
+            color={"red"}
+          />
+        </Mapbox.MapView>
+
+        <SearchContainer>
+          <SearchInnerContainer>
+            <AddressAutocomplete
+              placeholder="Start Address"
+              onPlaceSelected={async (position) => {
+                setStartCoords(position);
+                await insertLocation(
+                  position.lat,
+                  position.long,
+                  endCoords.lat,
+                  endCoords.long
+                );
               }}
             />
-          </Mapbox.ShapeSource>
-        ))}
-
-        <MapPointIndicator
-          lat={startCoords.lat}
-          long={startCoords.long}
-          id={"startPoint"}
-          color={"green"}
-        />
-
-        <MapPointIndicator
-          lat={endCoords.lat}
-          long={endCoords.long}
-          id={"endPoint"}
-          color={"red"}
-        />
-      </Mapbox.MapView>
-
-      <SearchContainer>
-        <SearchInnerContainer>
-          <AddressAutocomplete
-            placeholder="Start Address"
-            onPlaceSelected={async (position) => {
-              setStartCoords(position);
-              await insertLocation(
-                position.lat,
-                position.long,
-                endCoords.lat,
-                endCoords.long
-              );
-            }}
-          />
-          <AddressAutocomplete
-            placeholder="Destination Address"
-            onPlaceSelected={async (position) => {
-              setEndCoords(position);
-              await insertLocation(
-                startCoords.lat,
-                startCoords.long,
-                position.lat,
-                position.long
-              );
-            }}
-          />
-        </SearchInnerContainer>
-      </SearchContainer>
-    </AppContainer>
+            <AddressAutocomplete
+              placeholder="Destination Address"
+              onPlaceSelected={async (position) => {
+                setEndCoords(position);
+                await insertLocation(
+                  startCoords.lat,
+                  startCoords.long,
+                  position.lat,
+                  position.long
+                );
+              }}
+            />
+          </SearchInnerContainer>
+        </SearchContainer>
+      </AppContainer>
+    </AppSafeAreaView>
   );
 }

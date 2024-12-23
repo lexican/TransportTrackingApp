@@ -6,6 +6,7 @@ import { mapboxToken } from "@/utils/utils";
 import Mapbox from "@rnmapbox/maps";
 import { Position } from "@rnmapbox/maps/lib/typescript/src/types/Position";
 import { useEffect } from "react";
+import { ErrorContainer, ErrorText } from "@/styles/common/App.styled";
 
 Mapbox.setAccessToken(mapboxToken ?? "");
 
@@ -18,21 +19,25 @@ const Home: React.FC = () => {
     refetch,
   } = useFetchVehiclePositionsQuery();
 
-  if (error) {
-    return <Text>An error just occured</Text>;
-  }
-
   useEffect(() => {
     const interval = setInterval(() => {
       refetch();
-    }, 15000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [refetch]);
 
+  if (error) {
+    return (
+      <ErrorContainer>
+        <ErrorText>An error just occured</ErrorText>
+      </ErrorContainer>
+    );
+  }
+
   return (
     <Mapbox.MapView style={styles.map}>
-      <MapCamera zoomLevel={8} position={position} />
+      <MapCamera zoomLevel={10} position={position} />
       {vehiclePositions?.map((vehicle) => (
         <Mapbox.PointAnnotation
           key={vehicle.id}

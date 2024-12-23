@@ -49,6 +49,7 @@ export const vehicleApi = createApi({
 
           return { data: vehicles };
         } catch (error) {
+          console.log("vehicleApi error,", error)
           return {
             error: {
               status: "FETCH_ERROR",

@@ -2,10 +2,9 @@ import styled from "styled-components/native";
 
 export const SearchContainer = styled.View`
   position: absolute;
-  top: 30px;
+  top: 40px;
   width: 100%;
-  margin-rigth: 15px;
-  margin-left: 15px;
+  padding-horizontal: 15px;
 `;
 
 export const SearchInnerContainer = styled.View`

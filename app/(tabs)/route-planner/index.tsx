@@ -33,8 +33,6 @@ export default function RoutePlanner() {
     endCoords: endCoords,
   });
 
-  console.log(startCoords, endCoords);
-
   const mainRouteCords = data?.routes?.[0]?.geometry?.coordinates || [];
   const alternativeRoutes = data?.routes?.slice(1) || [];
 

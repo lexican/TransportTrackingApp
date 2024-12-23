@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
   return (
     <Mapbox.MapView style={styles.map}>
-      <MapCamera zoomLevel={7} position={position} />
+      <MapCamera zoomLevel={8} position={position} />
       {vehiclePositions?.map((vehicle) => (
         <Mapbox.PointAnnotation
           key={vehicle.id}
